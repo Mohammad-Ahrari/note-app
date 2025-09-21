@@ -1,12 +1,13 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import NewNote from "./NewNote";
 
 const App = () => {
   return (
-    <div className="my-4">
+    <div className="min-h-screen p-6">
       <Routes>
         <Route path="/" element={<h1>Home</h1>} />
-        <Route path="/new" element={<h1>Create a New Note</h1>} />
+        <Route path="/new" element={<NewNote />} />
         <Route path="/:id">
           <Route index element={<h1>Show</h1>} />
           <Route path="edit" element={<h1>Edit</h1>} />
