@@ -2,6 +2,21 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import NewNote from "./NewNote";
 
+export type Note = {
+  id: string;
+} & NoteData;
+
+export type NoteData = {
+  title: string;
+  markdown: string;
+  tags: Tag[];
+};
+
+export type Tag = {
+  id: string;
+  label: string;
+};
+
 const App = () => {
   return (
     <div className="min-h-screen p-6">

@@ -1,11 +1,28 @@
+import { useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import CreatableSelect from "react-select/creatable";
+import type { NoteData, Tag } from "./App";
 
-const NoteForm = () => {
+type NoteFormProps = {
+  onSubmit: (data: NoteData) => void;
+};
 
-  
+const NoteForm = ({ onSubmit }: NoteFormProps) => {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const markdownRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+
+    onSubmit({
+      title: titleRef.current!.value,
+      markdown: markdownRef.current!.value,
+      tags: [],
+    });
+  };
   return (
-    <form className="space-y-4">
+    <form className="space-y-4" onSubmit={handleSubmit}>
       {/* Title + Tags */}
       <div className="grid grid-cols-2 gap-4">
         {/* Title */}
@@ -17,6 +34,7 @@ const NoteForm = () => {
             id="title"
             required
             className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ref={titleRef}
           />
         </div>
 
@@ -25,7 +43,12 @@ const NoteForm = () => {
           <label htmlFor="tags" className="text-sm font-medium mb-1">
             Tags
           </label>
-          <CreatableSelect isMulti />
+          <CreatableSelect
+            value={selectedTags.map((tag) => {
+              return { label: tag.label, value: tag.id };
+            })}
+            isMulti
+          />
         </div>
       </div>
 
@@ -39,6 +62,7 @@ const NoteForm = () => {
           required
           rows={15}
           className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ref={markdownRef}
         />
       </div>
 
